@@ -1,0 +1,134 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #dcdcdc 40%, #f8f8f8 60%);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background: #fff;
+    width: 400px;
+    max-width: 90%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+main .main_heading{
+    font-size: large;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #6c6b6b;
+}
+
+/* Logo */
+main img {
+    margin: 20px auto;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-image: url('../static/loginLogo.png');
+    background-position: center;
+    background-size: cover;
+    display: block;
+}
+
+/* Inputs */
+form input {
+    width: 100%;
+    border: 2px solid rgba(71, 69, 69, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+form input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Buttons */
+form button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background: #43a047;
+    transform: scale(1.03);
+}
+
+/* Text */
+p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Error / Success messages */
+.warning {
+    color: red;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+.sent {
+    color: #1b5e20;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+/* Home page user card */
+.user-card {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.showUser {
+    margin: 20px auto;
+    width: 150px;
+    height: 150px;
+    background-image: url('../static/userLogo.png');
+    background-size: cover;
+    border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+.logout-btn {
+    background: #ff5252;
+    color: white;
+    margin-top: 20px;
+}
+.logout-btn:hover {
+    background: #e53935;
+}

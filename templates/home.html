@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main>
+        <p class="main_heading">Online Notes Manager</p>
+        <div class="user-card">
+            <div class="showUser"></div>
+            <h1>Welcome, {{ fname }} {{ lname }}</h1>
+            <h2>Email: {{ email }}</h2>
+            <form action="/logout" method="get">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
