@@ -7,9 +7,22 @@ app.secret_key = os.urandom(24)
 
 # ---------------- ROUTES ---------------- #
 
-@app.route('/')
+# @app.route('/something')
+# def something():
+#     return render_template('something.html')
+
+# ---------------- Notes ---------------- #
+
+@app.route('/addnote')
+def addnotes():
+    return render_template('dashboard.html')
+
+# ---------------- User Login/Logout ---------------- #
+
+@app.route('/login')
 def login():
     return render_template('login.html')
+
 
 @app.route('/login_validation', methods=['POST'])
 def login_validation():
@@ -54,11 +67,12 @@ def add_user():
         connection.close()
         return render_template('registration.html', msg="User already exists")
     else:
-        cursor.execute("INSERT INTO USERS(first_name,last_name,email,password) VALUES(?,?,?,?)",
+        cursor.execute("INSERT INTO USERS(first_name,last_name,email,password)",
                        (fname, lname, email, password))
         connection.commit()
         connection.close()
-        return render_template('login.html')
+        # return render_template('login.html')
+        return redirect('/home')
 
 @app.route('/logout')
 def logout():
