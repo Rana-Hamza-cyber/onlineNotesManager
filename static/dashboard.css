@@ -70,7 +70,6 @@ body{
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
     gap: 10px;
-    padding: 10px;
 }
 
 .item{
@@ -82,4 +81,63 @@ body{
 
 .item h4{
     font-weight: bold;
+}
+
+.addnote{
+    padding: 8px 16px;
+    border: 2px solid #9446e2;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: white;
+    color: #9446e2;
+    font-weight: bold;
+}
+
+.addnote:hover{
+    background-color: #9446e2;
+    color: white;
+}
+
+.notes-template{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
+    margin-bottom: 20px;
+
+}
+
+.item-template{
+    display: flex;
+    flex-direction: column; 
+    color: #9446e2;
+    padding: 20px;
+    border: 2px solid #9446e2;
+    border-radius: 8px;
+    gap: 10px;
+}
+
+.item-template label{
+    font-weight: bold;
+    padding-bottom: 8px;
+}
+
+.item-template input{
+    padding: 8px 10px;
+    border: 1px solid;
+}
+
+.item-template input:focus{
+    outline: none;
+    border: 1px solid #9446e2;
+}
+
+.item-template textarea{
+    padding: 8px 10px;
+}
+
+.item-template textarea:focus{
+    outline: none;
+    border: 1px solid #9446e2;
 }
