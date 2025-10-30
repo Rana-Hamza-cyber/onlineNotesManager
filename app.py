@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, jsonify, render_template, request, redirect
 import sqlite3
 import os
 
@@ -45,10 +45,28 @@ init_db()
 
 # ---------------- ROUTES ---------------- #
 
+
+
+# ---------------- DASHBOARD ---------------- #
+
 @app.route('/')
 def dashboard():
+    
     return render_template('dashboard.html')
+    # return redirect(f'/?title={title}&description={description}')
 
+@app.route('/getallnotes', methods=['GET'])
+def get_all_notes():
+    connection = sqlite3.connect("notes.db")
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM NOTES")
+    rows = cursor.fetchall()
+    notes = [dict(row) for row in rows]
+
+    connection.close()
+    return jsonify(notes)
 
 # ---------------- NOTES ---------------- #
 
