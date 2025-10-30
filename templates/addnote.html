@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
-    <title>Dashboard</title>
+    <title>Add Note</title>
 </head>
 
 <body>
@@ -23,14 +23,20 @@
         </div>
         <div class="body" id="body">
             <div class="title">
-                <h1>All Notes</h1>
+                <h1>Add Note</h1>
             </div>
 
-            <div class="notes-container">
-                <div class="item">
+            <div class="notes-template">
+                <form action="/addnote" method="POST" class="item-template">
+                    <!-- <label for="title">Title</label> -->
+                    <input type="text" placeholder="Title" name="title" id="title" required>
+                    <textarea name="description" id="description" placeholder="Message" rows="10" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+                <!-- <div class="item">
                     <h3>Title</h3>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae, sunt? </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

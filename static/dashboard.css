@@ -7,7 +7,7 @@ body{
 .bg{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100;
 }
 
 .navbar{
@@ -19,6 +19,26 @@ body{
     align-items: center;
     background-color: #9446e2;
     color: white;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-item{
+    list-style-type: none;
+}
+
+.menu-item a{
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.menu-item a:hover{
+    text-decoration: underline;
 }
 
 .login{
@@ -100,22 +120,24 @@ body{
 }
 
 .notes-template{
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
+    grid-template-rows: auto; */
+    display: flex;
+    align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-
 }
 
 .item-template{
     display: flex;
     flex-direction: column; 
     color: #9446e2;
-    padding: 20px;
-    border: 2px solid #9446e2;
+    /* padding: 20px; */
+    /* border: 2px solid #9446e2; */
     border-radius: 8px;
     gap: 10px;
+    width: 40vw;
 }
 
 .item-template label{
@@ -130,7 +152,7 @@ body{
 
 .item-template input:focus{
     outline: none;
-    border: 1px solid #9446e2;
+    border: 2px solid #9446e2;
 }
 
 .item-template textarea{
@@ -139,5 +161,22 @@ body{
 
 .item-template textarea:focus{
     outline: none;
+    border: 2px solid #9446e2;
+}
+
+.item-template button{
+    padding: 8px 16px;
     border: 1px solid #9446e2;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: white;
+    color: #9446e2;
+    font-weight: bold;
+}
+
+.item-template button:hover{
+    background-color: #9446e2;
+    color: white;
+    border: 1px solid white;
 }
