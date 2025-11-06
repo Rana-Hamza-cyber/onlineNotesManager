@@ -201,3 +201,7 @@ body{
     color: white;
     border: 1px solid white;
 }
+
+.id{
+    display: none;
+}
