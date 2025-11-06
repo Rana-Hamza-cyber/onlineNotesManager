@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect
 import sqlite3
 import os
+from urllib.parse import quote
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -53,7 +54,56 @@ init_db()
 def dashboard():
     
     return render_template('dashboard.html')
-    # return redirect(f'/?title={title}&description={description}')
+
+@app.route('/updatenote', methods=['POST'])
+def update_note():
+    id = request.form.get('id')
+    title = request.form.get('title')
+    description = request.form.get('description')
+
+    db_path = get_db_path()
+    try:
+        connection = sqlite3.connect(db_path)
+        connection.row_factory = sqlite3.Row
+        cursor = connection.cursor()
+
+        cursor.execute("UPDATE NOTES SET title = ?, description = ? WHERE id = ?", (title, description, id))
+        connection.commit()
+        connection.close()
+
+        return redirect('/')
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
+@app.route('/editnote')
+def edit_note():
+    id = request.args.get('id')
+    title = request.args.get('title')
+    description = request.args.get('description')
+    id = int(id)
+
+    return render_template('updatenote.html', id=id, title=title, description=description )
+
+@app.route('/findnote')
+def find_note():
+    note_id = request.args.get('id')
+    note_id = int(note_id)
+
+    db_path = get_db_path()
+
+    try:
+        connection = sqlite3.connect(db_path)
+        connection.row_factory = sqlite3.Row
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM NOTES WHERE id = ?", (note_id,))
+        note = cursor.fetchone()
+        connection.commit()
+        connection.close()
+
+        return redirect(f"/editnote?id={note['id']}&title={quote(note['title'])}&description={quote(note['description'])}")
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
 
 @app.route('/deletenote')
 def delete_note():

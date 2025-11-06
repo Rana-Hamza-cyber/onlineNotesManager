@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>Add Note</title>
+</head>
+
+<body>
+    <div class="bg">
+        <div class="navbar" id="navbar">
+            <h3>OnlineNotesManager</h3>
+            <ul class="menu">
+                <li class="menu-item"><a href="/">Home</a></li>
+                <li class="menu-item"><a href="/note">Add Note</a></li>
+            </ul>
+            <div>
+                <a href="/login"><button class="login">login</button></a>
+                <a href="/registration"><button class="signup">Sign up</button></a>
+            </div>
+        </div>
+        <div class="body" id="body">
+            <div class="title">
+                <h1>Update Note</h1>
+            </div>
+
+            <div class="notes-template">
+                <form action="/updatenote" method="POST" class="item-template">
+                    <input type="hidden" class="id" name='id' value="{{id}}">
+                    <input type="text" placeholder="Title" name="title" id="title" value="{{title}}" required>
+                    <textarea name="description" id="description" placeholder="Message" rows="10" required>{{description}}</textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='addnote.js') }}"></script>
+</body>
+
+</html>
