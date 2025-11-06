@@ -26,17 +26,24 @@
                 <h1>All Notes</h1>
             </div>
 
-            <!-- <div class="notes-container">
+            <!--<div class="notes-container">
                 <div class="item">
-                    <h3>Title</h3>
+                    <div>
+                        <h3>Title</h3>
+                        <div class='custom-div'>
+                            <button onclick={handleEdit()}>Edit</button>
+                            <button onclick={handleDelete()}>Delete</button>
+                        </div>
+                    </div>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae, sunt? </p>
                 </div>
             </div> -->
+
             <div class="notes-container" id="notes-container"></div>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='getallnotes.js') }}"></script>
+    <script src="{{ url_for('static', filename='notes.js') }}"></script>
 </body>
 
 </html>

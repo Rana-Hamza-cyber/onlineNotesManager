@@ -55,6 +55,27 @@ def dashboard():
     return render_template('dashboard.html')
     # return redirect(f'/?title={title}&description={description}')
 
+@app.route('/deletenote')
+def delete_note():
+    note_id = request.args.get('id')
+    note_id = int(note_id)
+
+    db_path = get_db_path()
+
+    try:
+        connection = sqlite3.connect(db_path)
+        connection.row_factory = sqlite3.Row
+        cursor = connection.cursor()
+
+        cursor.execute("DELETE FROM NOTES WHERE id = ?", (note_id,))
+        connection.commit()
+        connection.close()
+
+        return jsonify({'status': 'success', 'message': f'Note {note_id} deleted'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
+
 @app.route('/getallnotes', methods=['GET'])
 def get_all_notes():
     connection = sqlite3.connect("notes.db")
