@@ -27,8 +27,18 @@
             </div>
 
             <div class="notes-template">
-                <form action="/addnote" method="POST" class="item-template">
+                <!-- <form action="/addnote" method="POST" class="item-template"> -->
+                <form id='addNote' class="item-template">
                     <!-- <label for="title">Title</label> -->
+                     <div>
+                        <label for="category">Category</label>
+                        <select name="category" id="category">
+                            <option value="miscellaneous">Miscellaneous</option>
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="study">Study</option>
+                        </select>
+                     </div>
                     <input type="text" placeholder="Title" name="title" id="title" required>
                     <textarea name="description" id="description" placeholder="Message" rows="10" required></textarea>
                     <button type="submit">Submit</button>
