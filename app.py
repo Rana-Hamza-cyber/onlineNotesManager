@@ -33,7 +33,9 @@ def init_db():
         CREATE TABLE IF NOT EXISTS NOTES(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            description TEXT
+            description TEXT,
+            category TEXT,
+            pined INTEGER DEFAULT 0
         )
     """)
 
@@ -55,11 +57,39 @@ def dashboard():
     
     return render_template('dashboard.html')
 
+
+@app.route('/pinnote', methods=['POST'])
+def pin_note():
+    note_id = request.args.get('id')
+    note_id = int(note_id)
+
+    db_path = get_db_path()
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Get current pined value
+    cursor.execute("SELECT pined FROM NOTES WHERE id=?", (note_id,))
+    current = cursor.fetchone()
+
+    if current is None:
+        conn.close()
+        return jsonify({"error": "Note not found"}), 404
+
+    new_value = 0 if current[0] == 1 else 1
+
+    # Update it
+    cursor.execute("UPDATE NOTES SET pined=? WHERE id=?", (new_value, note_id))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True, "pined": new_value})
+
 @app.route('/updatenote', methods=['POST'])
 def update_note():
     id = request.form.get('id')
     title = request.form.get('title')
     description = request.form.get('description')
+    category = request.form.get('category')
 
     db_path = get_db_path()
     try:
@@ -67,7 +97,7 @@ def update_note():
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
 
-        cursor.execute("UPDATE NOTES SET title = ?, description = ? WHERE id = ?", (title, description, id))
+        cursor.execute("UPDATE NOTES SET title = ?, description = ?, category = ? WHERE id = ?", (title, description, category, id))
         connection.commit()
         connection.close()
 
@@ -80,9 +110,11 @@ def edit_note():
     id = request.args.get('id')
     title = request.args.get('title')
     description = request.args.get('description')
+    category = request.args.get('category')
+
     id = int(id)
 
-    return render_template('updatenote.html', id=id, title=title, description=description )
+    return render_template('updatenote.html', id=id, title=title, description=description, category=category )
 
 @app.route('/findnote')
 def find_note():
@@ -98,10 +130,9 @@ def find_note():
 
         cursor.execute("SELECT * FROM NOTES WHERE id = ?", (note_id,))
         note = cursor.fetchone()
-        connection.commit()
         connection.close()
 
-        return redirect(f"/editnote?id={note['id']}&title={quote(note['title'])}&description={quote(note['description'])}")
+        return redirect(f"/editnote?id={note['id']}&title={quote(note['title'])}&description={quote(note['description'])}&category={quote(note['category'])}")
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
 
@@ -128,7 +159,8 @@ def delete_note():
 
 @app.route('/getallnotes', methods=['GET'])
 def get_all_notes():
-    connection = sqlite3.connect("notes.db")
+    db_path = get_db_path()
+    connection = sqlite3.connect(db_path)
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
 
@@ -147,6 +179,7 @@ def note():
 
 @app.route('/addnote', methods=['POST'])
 def addnotes():
+    category = request.form.get('category')
     title = request.form.get('title')
     description = request.form.get('description')
 
@@ -155,15 +188,14 @@ def addnotes():
         connection = sqlite3.connect(db_path)
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO NOTES (title, description) VALUES (?, ?)", (title, description))
+        cursor.execute("INSERT INTO NOTES (title, description, category) VALUES (?, ?, ?)", (title, description, category))
         connection.commit()
         connection.close()
 
-        return redirect('/')
-        # return redirect(f'/?title={title}&description={description}')
+        return jsonify({"success": True, "message": "Note added successfully"})
     except Exception as e:
         print('Error:', e)
-        return f"Error: {e}", 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 # ---------------- USER LOGIN / LOGOUT ---------------- #

@@ -28,6 +28,30 @@
 
             <div class="notes-template">
                 <form action="/updatenote" method="POST" class="item-template">
+                    <div>
+                        <label for="category">Category</label>
+                        <select name="category" id="category">
+                            <option value="miscellaneous" 
+                                {% if category == 'miscellaneous' %} selected {% endif %}>
+                                Miscellaneous
+                            </option>
+
+                            <option value="work" 
+                                {% if category == 'work' %} selected {% endif %}>
+                                Work
+                            </option>
+
+                            <option value="personal" 
+                                {% if category == 'personal' %} selected {% endif %}>
+                                Personal
+                            </option>
+
+                            <option value="study" 
+                                {% if category == 'study' %} selected {% endif %}>
+                                Study
+                            </option>
+                        </select>
+                    </div>
                     <input type="hidden" class="id" name='id' value="{{id}}">
                     <input type="text" placeholder="Title" name="title" id="title" value="{{title}}" required>
                     <textarea name="description" id="description" placeholder="Message" rows="10" required>{{description}}</textarea>
