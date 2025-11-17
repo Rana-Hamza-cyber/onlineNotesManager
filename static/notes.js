@@ -6,6 +6,7 @@ function fetchAllNotes() {
     fetch("/getallnotes")
         .then(response => response.json())
         .then(data => {
+            data.sort((a, b) => b.pined - a.pined);
             localStorage.setItem('notes', JSON.stringify(data))
             const container = document.getElementById("notes-container")
             container.innerHTML = ""
@@ -15,13 +16,20 @@ function fetchAllNotes() {
                 noteDiv.classList.add("item")
 
                 noteDiv.innerHTML = `
-                <div>
-                        <h3>${note.title}</h3>
-                        <div class='custom-div'>
-                            <button onclick=handleEdit(${note.id})>Edit</button>
-                            <button onclick=handleDelete(${note.id})>Delete</button>
-                        </div>
+                <div class='category'>
+                    <h4>${note.category}</h4>
+                    <div class='icons'>
+                        <i onclick='handleDownload(${note.id})' class="fas fa-download" aria-hidden="true"></i>
+                        <i onclick='handlePin(${note.id})' style="color: ${note.pined ? 'yellow' : 'white'}" class="bi bi-pin-fill"></i>
                     </div>
+                </div>
+                <div class='title-row'>
+                    <h3>${note.title}</h3>
+                    <div class='custom-div'>
+                        <button onclick='handleEdit(${note.id})'>Edit</button>
+                        <button onclick='handleDelete(${note.id})'>Delete</button>
+                    </div>
+                </div>
                 <p>${note.description}</p>
                 `
 
@@ -31,55 +39,46 @@ function fetchAllNotes() {
         .catch(err => console.error("Error fetching notes:", err))
 }
 
-function handleEdit(id){
-    window.location.href = `/findnote?id=${id}`;
+function handleDownload(id) {
+    console.log('Download')
+    // Find the note from localStorage (or you can fetch from server)
+    let notes = JSON.parse(localStorage.getItem("notes")) || [];
+    const note = notes.find(n => n.id === id);
+
+    if (!note) {
+        alert("Note not found!");
+        return;
+    }
+
+    const textContent =
+        `Category: ${note.category}
+Title: ${note.title}
+
+${note.description}`
+
+    // Create a fake download link
+    const blob = new Blob([textContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${note.title}.txt`; // File name
+    a.click();
+
+    // Cleanup
+    URL.revokeObjectURL(url);
 }
 
-// function handleEdit(id) {
-//     console.log('Edit', id)
+function handlePin(id) {
+    fetch(`/pinnote?id=${id}`, { method: "POST" })
+        .then(res => res.json())
+        .then(() => fetchAllNotes())  // re-render sorted
+        .catch(err => console.error(err));
+}
 
-//     fetch(`updatenote?id=${id}`)
-//         .then(response => response.json())
-//         .then(data => {
-//             const container = document.getElementById("notes-container")
-//             container.innerHTML = ""
-
-//             data.forEach(note => {
-//                 const form = document.createElement('form')
-//                 form.action = '/updatesinglenote'
-//                 form.method = 'POST'
-//                 form.classList.add('item-template')
-
-//                 const input = document.createElement('input')
-//                 input.type = 'text'
-//                 input.name = 'title'
-//                 input.id = 'title'
-//                 input.value = note.title
-
-//                 const textarea = document.createElement('textarea')
-//                 textarea.name = 'description'
-//                 textarea.id = 'description'
-//                 textarea.rows = '10'
-//                 textarea.value = note.description
-
-//                 const hiddenId = document.createElement('input');
-//                 hiddenId.type = 'hidden';
-//                 hiddenId.name = 'id';
-//                 hiddenId.value = note.id;
-
-//                 const button = document.createElement('button')
-//                 button.type = 'submit'
-//                 button.textContent = 'Update Note'
-
-//                 form.appendChild(hiddenId)
-//                 form.appendChild(input)
-//                 form.appendChild(textarea)
-//                 form.appendChild(button)
-//                 container.appendChild(form)
-//             })
-//         })
-//         .catch(err => console.error("Error fetching note:", err));
-// }
+function handleEdit(id) {
+    window.location.href = `/findnote?id=${id}`;
+}
 
 function handleDelete(id) {
     console.log('Deleting note with id:', id);
@@ -92,3 +91,4 @@ function handleDelete(id) {
         })
         .catch(err => console.error("Error deleting note:", err));
 }
+

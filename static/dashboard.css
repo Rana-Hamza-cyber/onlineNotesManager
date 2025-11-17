@@ -92,6 +92,43 @@ body{
     gap: 10px;
 }
 
+/* Category Section */
+.item .category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Remove default margins inside category and title-row */
+.item .category h4,
+.item .title-row h3 {
+    margin: 0;
+}
+
+/* Title Row */
+.item .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.icons{
+    display: flex;
+    gap: 4px;
+}
+
+.icons i{
+    border: 1px solid #9446e2;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.icons i:hover{
+    cursor: pointer;
+    border: 1px solid white;
+}
+
 .item{
     background-color: #9446e2;
     color: white;
@@ -166,9 +203,15 @@ body{
     padding-bottom: 8px;
 }
 
-.item-template input{
+.item-template input, select{
     padding: 8px 10px;
     border: 1px solid;
+}
+
+.item-template div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .item-template input:focus{

@@ -4,17 +4,19 @@ connection = sqlite3.connect('Notes.db')
 cursor = connection.cursor()
 
 user_db_command = """CREATE TABLE IF NOT EXISTS USERS(
-                            first_name varchar(50),
-                            last_name varchar(50),
-                            email varchar(50) primary key,
-                            password varchar(50) not null)"""
+                            first_name VARCHAR(50),
+                            last_name VARCHAR(50),
+                            email VARCHAR(50) primary key,
+                            password VARCHAR(50) not null)"""
 
 cursor.execute(user_db_command)
 
 notes_db_command = """CREATE TABLE IF NOT EXISTS NOTES(
                             id INTEGER PRIMARY KEY AUTOINCREMENT,
-                            title varchar(50),
-                            description varchar(150))"""
+                            title VARCHAR(50),
+                            description VARCHAR(150),
+                            category VARCHAR(50),
+                            pined BOOLEAN"""
 
 cursor.execute(notes_db_command)
 
